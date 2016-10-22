@@ -24,14 +24,14 @@ public:
 	void setZ(double);
 	Vertex operator=(Vertex);
 private:
-	 double x;
-	 double y;
-	 double z;
+	double x;
+	double y;
+	double z;
 };
 
-Vertex::Vertex(double vx, double vy, double vz){
-	 
-	this->x = vx; 
+Vertex::Vertex(double vx, double vy, double vz) {
+
+	this->x = vx;
 	this->y = vy;
 	this->z = vz;
 
@@ -45,7 +45,7 @@ Vertex::Vertex() {
 
 }
 
-double Vertex::getX(){
+double Vertex::getX() {
 	return this->x;
 }
 
@@ -57,7 +57,7 @@ double Vertex::getZ() {
 	return this->z;
 }
 
-void Vertex::setX(double vx){
+void Vertex::setX(double vx) {
 	this->x = vx;
 }
 
@@ -116,7 +116,7 @@ void loadOBJ(string filename) {
 		//file >> line;
 		//cout << line << endl;
 
-		
+
 
 		if (line[0] == '#' || line == "")
 			continue;
@@ -132,11 +132,12 @@ void loadOBJ(string filename) {
 				aux.setZ(values);
 
 				//cout << setprecision(9) << aux.getX() << " " << aux.getY() << " " << aux.getZ() << endl;
-				
-				
+
+
 				vertices.push_back(aux);
-				
-			} else if (type == "vt") {
+
+			}
+			else if (type == "vt") {
 
 				l >> values;
 				aux.setX(values);
@@ -145,11 +146,12 @@ void loadOBJ(string filename) {
 				l >> values;
 				aux.setZ(values);
 
-			//	cout << aux.getX() << " " << aux.getY() << " " << aux.getZ() << endl;
+				//	cout << aux.getX() << " " << aux.getY() << " " << aux.getZ() << endl;
 
 				t_vertices.push_back(aux);
-				
-			} else if (type == "vn") {
+
+			}
+			else if (type == "vn") {
 
 				l >> values;
 				aux.setX(values);
@@ -158,12 +160,13 @@ void loadOBJ(string filename) {
 				l >> values;
 				aux.setZ(values);
 
-			//	cout << aux.getX() << " " << aux.getY() << " " << aux.getZ() << endl;
+				//	cout << aux.getX() << " " << aux.getY() << " " << aux.getZ() << endl;
 
 				normais.push_back(aux);
-				
-			} else if (type == "f") {
-				
+
+			}
+			else if (type == "f") {
+
 				unsigned int vertexIndex[3], textureIndex[3], normalIndex[3];
 
 				for (int i = 0; i < 3; i++) {
@@ -173,28 +176,29 @@ void loadOBJ(string filename) {
 					l >> ch;
 					l >> normalIndex[i];
 
-				//	cout << vertexIndex[i] << " / " << textureIndex[i] << " / " << normalIndex[i] << " ";
+					//	cout << vertexIndex[i] << " / " << textureIndex[i] << " / " << normalIndex[i] << " ";
 				}
 
-				
+
 				vertexIndices.push_back(vertexIndex[0]);
 				vertexIndices.push_back(vertexIndex[1]);
 				vertexIndices.push_back(vertexIndex[2]);
-				
+
 				textureIndices.push_back(textureIndex[0]);
 				textureIndices.push_back(textureIndex[1]);
 				textureIndices.push_back(textureIndex[2]);
-				
+
 				normalIndices.push_back(normalIndex[0]);
 				normalIndices.push_back(normalIndex[1]);
 				normalIndices.push_back(normalIndex[2]);
 
-			} else continue;
+			}
+			else continue;
 
 		}
 	}
 
-	
+
 
 	file.close();
 
@@ -205,6 +209,7 @@ void drawSub() {
 
 	submarine = glGenLists(1);
 	glPointSize(2.0);
+	glColor3f(1.0, 1.0, 1.0);
 
 	glNewList(submarine, GL_COMPILE);
 	{
@@ -212,10 +217,10 @@ void drawSub() {
 		glPushMatrix();
 		glBegin(GL_TRIANGLES);
 
-		for(int i = 0; i < vertices.size() - 2; i++){
+		for (int i = 0; i < vertices.size() - 2; i++) {
 			glVertex3f(vertices.at(i).getX(), vertices.at(i).getY(), vertices.at(i).getZ());
-			glVertex3f(vertices.at(i+1).getX(), vertices.at(i+1).getY(), vertices.at(i+1).getZ());
-			glVertex3f(vertices.at(i+2).getX(), vertices.at(i+2).getY(), vertices.at(i+2).getZ());
+			glVertex3f(vertices.at(i + 1).getX(), vertices.at(i + 1).getY(), vertices.at(i + 1).getZ());
+			glVertex3f(vertices.at(i + 2).getX(), vertices.at(i + 2).getY(), vertices.at(i + 2).getZ());
 		}
 		glEnd();
 
@@ -274,11 +279,12 @@ void drawSubmarine()
 	glTranslatef(0, -40.00, -105);
 	glColor3f(1.0, 1.0, 1.0);
 	glScalef(0.1, 0.1, 0.1);
-//	glRotatef(submarinerot, 0, 1, 0);
+	glRotatef(submarinerot, 0, 1, 0);
 	glCallList(submarine);
+	drawSub();
 	glPopMatrix();
-	//submarinerot = submarinerot + 0.6;
-	//if (submarinerot>360)submarinerot = submarinerot - 360;
+	submarinerot = submarinerot + 0.6;
+	if (submarinerot>360)submarinerot = submarinerot - 360;
 }
 void display(void)
 {
